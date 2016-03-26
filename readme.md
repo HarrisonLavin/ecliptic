@@ -5,7 +5,7 @@ An online multiplayer port of AEG's Love Letter
 
 
 ART ASSESTS ARE USED UNDER CC-BY-SA, CREATED BY JUSTIN NICHOL
-freeforall.cc
+http://www.freeforall.cc
 ###############################################
 OpenGameArt.org automatically generated credits file notice:
 
