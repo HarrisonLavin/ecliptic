@@ -1,1 +1,2 @@
-module.exports = {require('require-all')(__dirname + '/app');}
+module.exports = {
+  require('require-all')(__dirname + '/app');}

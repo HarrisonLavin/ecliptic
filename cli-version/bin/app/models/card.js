@@ -1,5 +1,7 @@
 var environment = require(./environment.js);
-function Card(title){
+modules.exports = {
+
+  function Card(title){
   this.title = title;
 }
 
@@ -50,4 +52,5 @@ var OPERATIVE= function()
 
 var ECLIPTIC= function (caller){
   caller.isOut();
+}
 }

@@ -1,7 +1,5 @@
 var environment = require(./environment.js);
-
-module.exports= {
-
+module.exports = {
 //Deck Class
 var DECK = [new Card("GUARD"), new Card("GUARD"), new Card("GUARD"), new Card("GUARD"), new Card("GUARD"), new Card("TECH"), new Card("TECH"), new Card("FIXER"), new Card("FIXER"), new Card("ASSISTANT"), new Card("ASSISTANT"), new Card("CHAIRMAN"), new Card("CHAIRMAN"), new Card("DIRECTOR"), new Card("OPERATIVE"), new Card("ECLIPTIC")];
 

@@ -1,5 +1,5 @@
 var environment = require(./environment.js);
-module.exports= {
+module.exports = {
 function Game(playerNum){
   var i = 0;
   this.players= [];
