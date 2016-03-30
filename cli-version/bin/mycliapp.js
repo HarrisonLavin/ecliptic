@@ -50,15 +50,13 @@ Game.prototype.over= function (winner){
 
 
 Game.prototype.loop = function() {
-  var action = "";
-  var playerIndex= 0;
-  var currentPlayer = currentGame.players[playerIndex];
+  var currentPlayer = currentGame.players[currentRound.currentPlayer];
   
   if(!currentPlayer.turnStarted){
     currentPlayer.drawCard();
   }
   currentPlayer.turnStarted = true;
-  read.question("Player " + (playerIndex + 1) + ": What action would you like to take?([H]AND, [P]LAY) ", function (answer){
+  read.question("Player " + (currentPlayer.num + 1) + ": What action would you like to take?([H]AND, [P]LAY, CARD [E]XPLANATION) ", function (answer){
   read.pause();
     switch(answer){
       case "H":
@@ -67,8 +65,12 @@ Game.prototype.loop = function() {
         break;
       case "P":
         currentPlayer.turnStarted = false;
-        playerIndex++;
+        currentRound.currentPlayer= (currentRound.currentPlayer + 1) % numPlayers;
         currentPlayer.playCard();
+        break;
+      case "E":
+        cardExplanation();
+        currentGame.loop();
         break;
       default:
         console.log("NOT A VALID CHOICE");
@@ -76,6 +78,8 @@ Game.prototype.loop = function() {
       }
     })
   }
+
+  //Player Class
   function Player(num){
     this.num = num;
     this.hand = [];
@@ -85,12 +89,20 @@ Game.prototype.loop = function() {
   }
 
   Player.prototype.drawCard = function() {
-    this.hand.push(shuffledDeck.pop())
+    // if(this.hand.length && shuffledDeck.length && ((shuffledDeck[-1].name ===  ":OPERATIVE") && (this.hand[0].name === ":CMNDR")) || ((shuffledDeck[-1].name ===  ":OPERATIVE") && (this.hand[0].name === ":CHAIRMAN"))) {
+    //   this.hand.shift(shuffledDeck[-1]);
+    // }
+    
+    //Should the deck store nubmers, and then cards are first created when drawn?  In that cast, Operative's code could check immediately to see if the other card in your hand is CMNDR or CHAIRMAN.  Also, cards need value numbers.
+    newCardValue= shuffledDeck.pop();
+    //finds proper card hash from the CARDDATA hash
+    //Checks to see if operative, forces player to play 
+    this.hand.push()
   };
 
   Player.prototype.cardDisplay = function(){
     for (var card in this.hand){
-      console.log(this.hand[card].title)
+      console.log(this.hand[card].name)
     }
   }
 
@@ -104,10 +116,19 @@ Game.prototype.loop = function() {
   };
 
   Player.prototype.playCard= function (){
-    Round.playersPresent;
-  }
+    var that = this
+    //Check all cards for OPERATIVE here? Force player to play Operative and notify them?
+    read.question("Which card would you like to play: [0]"+ this.hand[0].name + " or [1]"+ this.hand[1].name +"? ", function (answer){
+        read.pause();
+        // console.log('\033[2J');
+        console.log("Player"+ (that.num + 1) + " played " + that.hand[parseInt(answer)].name + ".");
+        that.hand.splice(parseInt(answer),1);
+        currentGame.loop();
+      })
+    }
+    
   
-   function Round(players){
+  function Round(players){
     this.deck= shuffledDeck.slice(0, 16)
     if(players.length == 2){
       this.pubDiscard = [];
@@ -117,6 +138,7 @@ Game.prototype.loop = function() {
     for (var i in currentGame.players){
       currentGame.players[i].drawCard();
     }
+    this.currentPlayer= 0;
   }
 
   Round.prototype.over = function(player) {
@@ -132,23 +154,13 @@ Game.prototype.loop = function() {
 
 
 //Deck Class
-var DECK = [new Card("GUARD"), new Card("GUARD"), new Card("GUARD"), new Card("GUARD"), new Card("GUARD"), new Card("TECH"), new Card("TECH"), new Card("FIXER"), new Card("FIXER"), new Card("ASSISTANT"), new Card("ASSISTANT"), new Card("CHAIRMAN"), new Card("CHAIRMAN"), new Card("DIRECTOR"), new Card("OPERATIVE"), new Card("ECLIPTIC")];
 
-var shuffledDeck = function (){
-  var dLength = DECK.length - 1;
-  var toSwap;
-  var temp;
-  for(i= dLength; i > 0; i--){ 
-    toSwap = Math.floor(Math.random() * i);
-    temp = DECK[i];
-    DECK[i] = DECK[toSwap];
-    DECK[toSwap] = temp;
-  }
-  return DECK;
-}();
 
-function Card(title){
-  this.title = title;
+
+function Card(callback, name, value){
+  this.name = name;
+  this.effect = callback;
+  this.value = value;
 }
 
 var GUARD = function (target, guess){
@@ -193,12 +205,40 @@ var DIRECTOR= function (caller, target){
 
 var OPERATIVE= function()
   {
-    console.log("goes nowhere, does nothing")
+    return "goes nowhere, does nothing";
   };
 
 var ECLIPTIC= function (caller){
   caller.isOut();
 }
+
+function cardExplanation(){
+  console.log(":DRONE- Choose an opponent and guess a non-:DRONE card.  If that opponent has that card, they are out of the round. Has no effect if they are protected by a :REPLICANT.");
+  console.log(":FIELD_TECH- Choose an opponent.  You may look at their hand, if they are not protected by a :REPLICANT.")
+  console.log(":STRIKER- Compare hands with another player.  Whoever has the lower value card is out of the round.  Cannot be played against a player protected by a :REPLICANT.")
+  console.log(":REPLICANT- Until the start of your next turn, you ignore the effects of any card played against you.")
+  console.log(":CHAIRMAN- Choose a player, including yourself.  That player discards their hand, and draws a new one.  If all other players are protected by a :REPLICANT, you must play this card on yourself and abide by its effects.")
+  console.log(":CMNDR- Exchange hands with another player.  May not be played on a player protected by a :REPLICANT.")
+  console.log(":OPERATIVE- Must be discarded if you have a :CMNDR or :CHAIRMAN in hand.  May be discarded at any other time to no effect otherwise.")
+  console.log(":ECLIPTECH- If you discard this card, you are out of the round.")
+}
+//deck class
+var DECK = [1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8];
+var CARDDATA = {":DRONE":{effect: GUARD, value: 1}, ":FIELD_TECH":{effect: TECH, value: 2}, ":STRIKER":{effect: FIXER, value: 3}, ":REPLICANT":{effect: ASSISTANT, value: 4}, ":CHAIRMAN":{effect: CHAIRMAN, value: 5}, ":CMNDR":{effect: DIRECTOR, value: 6}, ":OPERATIVE"{effect: OPERATIVE, value: 7}, ":ECLIPTECH":{effect: ECLIPTIC, value: 8}};
+
+
+var shuffledDeck = function (){
+  var dLength = DECK.length - 1;
+  var toSwap;
+  var temp;
+  for(i= dLength; i > 0; i--){ 
+    toSwap = Math.floor(Math.random() * i);
+    temp = DECK[i];
+    DECK[i] = DECK[toSwap];
+    DECK[toSwap] = temp;
+  }
+  return DECK;
+}();
 
 currentGame= new Game(numPlayers);
 currentRound= new Round(currentGame.players)
