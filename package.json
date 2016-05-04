@@ -1,9 +1,0 @@
-{
-  "name": "ECLIPTIC",
-  "version": "0.0.1",
-  "description": "Online multiplayer port of Love Letter",
-  "dependencies": {
-    "express": "^4.10.2",
-    "socket.io": "^1.4.5"
-  }
-}

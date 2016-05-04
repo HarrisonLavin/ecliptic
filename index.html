@@ -1,39 +1,96 @@
-<!doctype html>
-<html>
-  <head>
-    <title>ECLIPTIC CLI Implementation</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-<script>
-  var socket = io();
-  $('form').submit(function(){
-    if( ($('#m').val())[0] == ":"){
-      socket.emit('command', $('#m').val());
-    } else {
-      socket.emit('chat message', $('#m').val());
-    }
-    $('#m').val('');
-    return false;
-  });
-  socket.on('chat message', function(msg){
-    $('#messages').append($('<li>').text(msg));
-  });
-</script>
-  </body>
-</html>
+<head>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="./scripts/game-logic.js"></script>
+  <script src="./scripts/index.js"></script>
+  <script src="./scripts/jquery-ui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./stylesheets/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="./stylesheets/index.css">
+  <title>:ECLIPTIC</title>
+</head>
+
+
+<body>
+  <table>
+    <tr>
+      <th id="opp">Opponent (Score: <span id="opponentScore">0</span>)</th>
+      <td></td>
+      <th id="you">Player (Score: <span id="playerScore">0</span>)</th>
+    </tr>
+    <tr class="cardOne">
+      <td class="opponentHand">
+      </td>
+      <td id="playfield"></td>
+      <td class="playerHand">
+
+      </td>
+    </tr>
+  </table>
+
+
+  <div align="center" class="cardsLeft">Number of Cards Left In Deck: <span id="deckLeft">16</span></div>
+  <div align="center" class="discard">Discard Piles</div>
+  <div align="center" class="info">Card Info</div>
+
+<div class="modals">
+  <!-- The Modal -->
+  <div id="infoBox" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <table>
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/1.png"></td>
+        <td class="modalCardExplanation">:DRONE- Choose an opponent and guess a non-:DRONE card.  If that opponent has that card, they are out of the round. Has no effect if they are protected by a :REPLICANT.</td>
+      </tr>
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/2.png"></td>
+        <td class="modalCardExplanation">:FIELD_TECH- Choose an opponent.  You may look at their hand, if they are not protected by a :REPLICANT.</td>
+      </tr>      
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/3.png"></td>
+        <td class="modalCardExplanation">:STRIKER- Compare hands with another player.  Whoever has the lower value card is out of the round.  Cannot be played against a player protected by a :REPLICANT.</td>
+      </tr>
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/4.png"></td>
+        <td class="modalCardExplanation">:REPLICANT- Until the start of your next turn, you ignore the effects of any card played against you.</td>
+      </tr>    
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/5.png"></td>
+        <td class="modalCardExplanation">:CHAIRMAN- Choose a player, including yourself.  That player discards their hand, and draws a new one.  If all other players are protected by a :REPLICANT, you must play this card on yourself and abide by its effects.</td>
+      </tr>
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/6.png"></td>
+        <td class="modalCardExplanation">:CMNDR- Exchange hands with another player.  Has no effect on a player protected by a :REPLICANT.</td>
+      </tr>
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/7.png"></td>
+        <td class="modalCardExplanation">:OPERATIVE- Must be discarded if you have a :CMNDR or :CHAIRMAN in hand.  May be discarded at any other time to no effect otherwise.</td>
+      </tr>  
+      <tr>
+        <td class="modalCardImg"><img src="./imgs/8.png"></td>
+        <td class="modalCardExplanation">:ECLIPTECH- If you discard this card, you are out of the round.</td>
+      </tr>  
+      
+      </table>
+      <br><br><br><br><br><br><br>
+    </div>
+  </div>
+
+  <div id="discardModal" class="modal">
+    <div class="modal-content">
+    <table>
+      <tr>
+        <td>Opponent Discard:</td>
+        <td>Player Discard:</td>
+      </tr>
+      <tr>
+        <td class="opponentDiscard"></td>
+        <td class="playerDiscard"></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+  </div>
+
+
+</body>
