@@ -188,10 +188,11 @@ var oppFIELD_TECH= function(){
 }
 
 var STRIKER= function(){
-  alert("They had a "+ oppHand[0]+"value card!")
   if(oppHand[0] < playerHand[0]){
+    alert("Your hand was higher in value!")
     roundWinner("you")
   } else {
+    alert("The Computer's hand was higher in value!")
     roundWinner("opp")
   }
 }
