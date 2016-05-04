@@ -10,6 +10,10 @@ $(function(){
     $('#discardModal').show();
   });
 
+  $('.project').on('click', function(){
+    $('#projectInfo').show();
+  })
+
 
   $('.modal').on('click', function(){
     $('.modal').hide();
