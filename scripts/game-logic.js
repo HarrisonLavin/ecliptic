@@ -200,35 +200,36 @@ var oppSTRIKER= function(){
 }
 
 var REPLICANT = function(){
-
+  alert("ok, this is still a work in progress")
 }
 
 var oppREPLICANT= function(){
-
+  alert("ok, this is still a work in progress")
 }
 
 var CHAIRMAN = function(){
-  
+  alert("ok, this is still a work in progress")
 }
 
 var oppCHAIRMAN= function(){
 
+  alert("ok, this is still a work in progress")
 }
 
 var CMNDR = function(){
-  alert("WOOF")
+  alert("ok, this is still a work in progress")
 }
 
 var oppCMNDR= function(){
-
+  alert("ok, this is still a work in progress")
 }
 
 var OPERATIVE = function(){
-  alert("I COULD EAT DAT")
+  alert("ok, this is still a work in progress")
 }
 
 var oppOPERATIVE = function(){
-
+  alert("ok, this is still a work in progress")
 }
 
 var ECLIPTECH = function(){
