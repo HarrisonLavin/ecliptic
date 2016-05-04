@@ -27,11 +27,15 @@ body {
   background: linear-gradient(#292E37, #010000);
 }
 
+div#projectInfo,{
+  color: #000000;
+}
+
 div.cardsLeft{
   color: #FFFFFF;
 }
 
-div.discard, .info {
+div.discard, .info, .project{
   border-style: solid;
   border-width: 1px;
   color: #FFFFFF;
