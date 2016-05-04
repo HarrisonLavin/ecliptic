@@ -27,6 +27,8 @@ $(function(){
     start: startDragging
   });  
 
+  
+
   $('#playfield').droppable({
     drop: handleDropEvent
   })
