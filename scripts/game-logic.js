@@ -25,6 +25,8 @@ var deckSize = currentDeck.length;
 function shuffleDeck(){
   $('td.playerHand').empty();
   $('td.opponentHand').empty();
+  $('.playerDiscard').empty();
+  $('.opponentDiscard').empty();
   var toSwap; // The index we will swap  (i.e. the random number)
   var temp; // A temporary variable to hold reference to index variable i points to
   for (i = DECK.length - 1; i > 0; i--) { 
