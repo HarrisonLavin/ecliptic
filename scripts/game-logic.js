@@ -140,7 +140,6 @@ function tiebreaker(){
 
 //UI stuff for drag-and-drop
 function startDragging(ui){
-
   idWithinHand = this.parentElement.id
   idWithinDeck = this.src.slice(-5,-4)
   draggable = this.cloneNode()
@@ -188,10 +187,10 @@ var oppFIELD_TECH= function(){
 }
 
 var STRIKER= function(){
-  if(oppHand[0] < playerHand[0]){
+  if(parseInt(oppHand[0]) < parseInt(playerHand[0])){
     alert("Your hand was higher in value!")
     roundWinner("you")
-  } else {
+  } else if(parseInt(oppHand[0]) > parseInt(playerHand[0])){
     alert("The Computer's hand was higher in value!")
     roundWinner("opp")
   }
