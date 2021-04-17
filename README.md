@@ -7,10 +7,21 @@ TODO:
 - [ ] Actually build it with multiplayer
 
 
+WE DOING IRIS AGAIN BAYBEEEEEEEEEE
+
+Tools
+- Iris (for frontend)
+- Redis (for caching game data in progress)
+- docker (for composing the redis and the game logic)?
+
+
 Design:
 
+- At beginning, create or join session.
+- 
+
 Each Session has:
-- UUID
+- ID
 - Target Score
 - Players
 
@@ -19,6 +30,7 @@ Round has:
 - Discard Pile
 
 Player has:
+- ID
 - Hand
 - Score
 - Affectable?
