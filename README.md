@@ -11,14 +11,18 @@ Design:
 
 Each Session has:
 - UUID
+- Target Score
 - Players
+
+Round has:
 - Deck
 - Discard Pile
 
 Player has:
 - Hand
 - Score
-- Protected?
+- Affectable?
+- Out?
 
 Card has:
 - Effect
